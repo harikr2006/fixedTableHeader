@@ -12,8 +12,17 @@
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$("table").fixedTableHeader({  fixedClass: "TABLE_HEADER_FIX",
-        container: "fcontainer"});
+        container: "fcontainer",headerBackground:"#fff"
 
+
+    });
+
+$("table").on("whileDestroy",function(ele){
+	console.log("I am a destryoed call");
+});
+$("table").on("whileScroll",function(ele){
+	console.log("I am a scroller");
+});
 
 	});
 	</script>

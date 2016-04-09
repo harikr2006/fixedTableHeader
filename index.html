@@ -19,6 +19,15 @@
         headerClass:"headerClass"
     });
 
+
+$("table").on("whileDestroy",function(){
+	console.log("I am a destryoed call");
+});
+$("table").on("whileScroll",function(){
+	console.log("I am a scroller");
+});
+
+
 		 //$("table").ft('refresh');
 		//  $("table").ft('destroy');
 	});

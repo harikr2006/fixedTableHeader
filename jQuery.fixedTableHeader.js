@@ -1,20 +1,26 @@
 (function($) {
-
+    var opts = {};
     $.fn.fixedTableHeader = function(options) {
         //user defined options
-        var opts = {};
+
         // debugger;
         if (options === "refresh") {
             $.fn.fixedTableHeader.remove(this);
             $.fn.fixedTableHeader.reCreate(this);
+            $(this).trigger("whileRefresh");
 
         }
         if (options === "destroy") {
-            $.fn.fixedTableHeader.remove(this);
+            console.log(opts);
+            $.fn.fixedTableHeader.remove(this, opts);
+
+            $(this).trigger("whileDestroy");
 
         } else {
             $.fn.fixedTableHeader.remove(this);
-            opts = $.extend({}, $.fn.fixedTableHeader.defaults, options);
+            if (typeof options == "object") {
+                opts = $.extend({}, $.fn.fixedTableHeader.defaults, options);
+            }
 
 
             var element = opts.container || document;
@@ -27,6 +33,8 @@
                 var _this = $(this);
                 //calling setter and getter
                 $.fn.fixedTableHeader.widthSetter(_this, $.fn.fixedTableHeader.widthGetter(_this, opts), opts);
+
+                //$(_this).trigger("whileRender");
                 //scrolliing function
                 $.fn.fixedTableHeader.whileScroll(_this, opts);
 
@@ -61,6 +69,7 @@
             var SCROLL_TOP = $(this).scrollTop();
             var SCROLL_LEFT = $(this).scrollLeft();
 
+            $(_this).trigger("whileScroll");
 
             if (element == document) {
                 if (_this.offset().top < (SCROLL_TOP)) {
@@ -72,7 +81,7 @@
                         "top": OPTIONS.bufferTop + "px"
                     });
 
-                    _this.trigger("whileScroll");
+
 
                 } else {
 
@@ -81,7 +90,7 @@
                         "margin-top": "1px"
                     });
 
-                    _this.trigger("whileScroll");
+
                 }
 
             } else {
@@ -97,7 +106,11 @@
 
 
 
+
+
         });
+
+
 
     }
 
@@ -123,8 +136,13 @@
 
 
 
+
         $.fn.fixedTableHeader.widthSetterTd(ele, arr, OPTIONS);
-        ele.trigger("afterRender");
+
+
+
+
+
     };
     $.fn.fixedTableHeader.widthSetterTd = function(ele, arr, OPTIONS) {
         $("tbody tr:first-child td", ele)
@@ -150,17 +168,19 @@
             "background": OPTIONS.headerBackground
         }).attr("class", OPTIONS.headerClass);
 
+
     };
 
-    $.fn.fixedTableHeader.remove = function(ele) {
+    $.fn.fixedTableHeader.remove = function(ele, OPTIONS) {
+
         $(ele).prev().remove();
-        ele.trigger("whileDestroy");
+
 
     };
     $.fn.fixedTableHeader.reCreate = function(ele) {
-        $(ele).ft();
+        $(ele).fixedTableHeader();
 
-    }
+    };
 
 
 
