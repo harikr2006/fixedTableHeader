@@ -69,7 +69,10 @@
             var SCROLL_TOP = $(this).scrollTop();
             var SCROLL_LEFT = $(this).scrollLeft();
 
-            $(_this).trigger("whileScroll");
+            $(_this).trigger("whileScroll", [{
+                "left": SCROLL_LEFT,
+                "top": SCROLL_TOP
+            }]);
 
             if (element == document) {
                 if (_this.offset().top < (SCROLL_TOP)) {
