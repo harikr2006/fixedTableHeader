@@ -55,7 +55,7 @@
         tdCell: "tdcell",
         headerBackground: "",
         headerClass: "#fff",
-        bufferTop: "0"
+        bufferTop: 0
     }
 
     $.fn.fixedTableHeader.whileScroll = function(_this, OPTIONS) {
