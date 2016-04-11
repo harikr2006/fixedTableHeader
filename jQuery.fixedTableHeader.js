@@ -60,9 +60,9 @@
 
     $.fn.fixedTableHeader.whileScroll = function(_this, OPTIONS) {
         //container
-        var element = OPTIONS.container || document;
+        var element = OPTIONS.container || window;
 
-        element = (OPTIONS.container == element) ? "." + element : document;
+        element = (OPTIONS.container == element) ? "." + element : window;
 
         $(element).on("scroll", function() {
 
@@ -74,8 +74,8 @@
                 "top": SCROLL_TOP
             }]);
 
-            if (element == document) {
-                if (_this.offset().top < (SCROLL_TOP)) {
+            if (element == window) {
+                if (_this.offset().top < (SCROLL_TOP) && (_this.offset().top + _this.height() - ($("thead",_this).height())) >= SCROLL_TOP ) {
                     $("." + OPTIONS.fixedClass).css({
                         "position": "fixed",
                         "margin-top": "0",
