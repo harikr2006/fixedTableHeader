@@ -1,3 +1,5 @@
+
+
 (function($) {
     var opts = {};
     $.fn.fixedTableHeader = function(options) {
@@ -34,7 +36,7 @@
                 //calling setter and getter
                 $.fn.fixedTableHeader.widthSetter(_this, $.fn.fixedTableHeader.widthGetter(_this, opts), opts);
 
-                //$(_this).trigger("whileRender");
+
                 //scrolliing function
                 $.fn.fixedTableHeader.whileScroll(_this, opts);
 
@@ -55,7 +57,8 @@
         tdCell: "tdcell",
         headerBackground: "",
         headerClass: "#fff",
-        bufferTop: 0
+        bufferTop: 0,
+        "scrollEvent":"scroll"
     }
 
     $.fn.fixedTableHeader.whileScroll = function(_this, OPTIONS) {
@@ -64,10 +67,9 @@
 
         element = (OPTIONS.container == element) ? "." + element : window;
 
-        $(element).on("scroll", function() {
-
-            var SCROLL_TOP = $(this).scrollTop();
-            var SCROLL_LEFT = $(this).scrollLeft();
+        $(element).on(OPTIONS.scrollEvent, function(e,left,top) {
+             var SCROLL_TOP = (top) ? top : $(this).scrollTop();
+            var SCROLL_LEFT = (left) ? left : $(this).scrollLeft();
 
             $(_this).trigger("whileScroll", [{
                 "left": SCROLL_LEFT,
@@ -75,7 +77,7 @@
             }]);
 
             if (element == window) {
-                if (_this.offset().top < (SCROLL_TOP) && (_this.offset().top + _this.height() - ($("thead",_this).height())) >= SCROLL_TOP ) {
+                if (_this.offset().top < (SCROLL_TOP) && (_this.offset().top + _this.height() - ($("thead", _this).height())) >= SCROLL_TOP) {
                     $("." + OPTIONS.fixedClass).css({
                         "position": "fixed",
                         "margin-top": "0",
@@ -101,20 +103,11 @@
                     "position": "absolute",
                     "margin-top": SCROLL_TOP,
                     "visibility": "visible",
-                    "z-index": 1
-
+                    "z-index": (OPTIONS.zindex)? OPTIONS.zindex : 1
                 });
-
             }
 
-
-
-
-
         });
-
-
-
     }
 
     $.fn.fixedTableHeader.widthGetter = function(ele) {
@@ -126,7 +119,6 @@
 
             })
         return width_array;
-
     }
     $.fn.fixedTableHeader.widthSetter = function(ele, arr, OPTIONS) {
         $("thead th", ele)
@@ -137,14 +129,7 @@
 
             });
 
-
-
-
         $.fn.fixedTableHeader.widthSetterTd(ele, arr, OPTIONS);
-
-
-
-
 
     };
     $.fn.fixedTableHeader.widthSetterTd = function(ele, arr, OPTIONS) {
@@ -171,20 +156,16 @@
             "background": OPTIONS.headerBackground
         }).attr("class", OPTIONS.headerClass);
 
-
     };
 
     $.fn.fixedTableHeader.remove = function(ele, OPTIONS) {
 
         $(ele).prev().remove();
 
-
     };
     $.fn.fixedTableHeader.reCreate = function(ele) {
         $(ele).fixedTableHeader();
 
     };
-
-
 
 }(jQuery));
