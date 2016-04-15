@@ -20,7 +20,9 @@
 
         } else {
             $.fn.fixedTableHeader.remove(this);
-            if (typeof options == "object") {
+            
+            if (typeof options == "object" || options=="" || options ==null) {
+                
                 opts = $.extend({}, $.fn.fixedTableHeader.defaults, options);
             }
 
@@ -58,7 +60,7 @@
         headerBackground: "",
         headerClass: "#fff",
         bufferTop: 0,
-        "scrollEvent":"scroll"
+        scrollEvent:"scroll"
     }
 
     $.fn.fixedTableHeader.whileScroll = function(_this, OPTIONS) {
